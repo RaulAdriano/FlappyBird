@@ -26,6 +26,10 @@ public class Passaro {
         initCorpo();
     }
 
+    public Body getCorpo() {
+        return corpo;
+    }
+
     private void initCorpo() {
         float x = (camera.viewportWidth / 2) / Util.PIXEL_METRO;
         float y = (camera.viewportHeight / 2) / Util.PIXEL_METRO;
@@ -39,7 +43,28 @@ public class Passaro {
 
         BodyEditorLoader loader  = new BodyEditorLoader(Gdx.files.internal("physics/bird.json"));
 
-        loader.attachFixture(corpo, "bird",definicao,1,"PASSARO");
+        loader.attachFixture(corpo, "bird", definicao, 1, "PASSARO");
     }
 
+    /**
+     * atualiza o comportamento do passaro
+     * @param delta
+     */
+    public void atualizar(float delta){
+        atualizarVelocidade();
+
+    }
+
+    private void atualizarVelocidade() {
+        corpo.setLinearVelocity(2f,corpo.getLinearVelocity().y);
+    }
+
+    /**
+     * aplica uma forca positiva no y para simular o pulo;
+     */
+    public void vamosPular(){
+        corpo.setLinearVelocity(corpo.getLinearVelocity().x,0);
+        corpo.applyForceToCenter(0,150,false);
+
+    }
 }
