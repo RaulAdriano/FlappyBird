@@ -1,11 +1,13 @@
 package br.grupointegrado.raul.FlappyBird;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Passaro {
@@ -30,11 +32,14 @@ public class Passaro {
 
         corpo = Util.criarCorpo(mundo, BodyDef.BodyType.DynamicBody, x, y);
 
-        CircleShape shape = new CircleShape();
-        shape.setRadius(18 / Util.PIXEL_METRO);
+        FixtureDef definicao  = new FixtureDef();
+        definicao.density = 1;
+        definicao.friction = 0.4f;
+        definicao.restitution = 0.3f;
 
-        Fixture forma = Util.criarForma(corpo, shape, "PASSARO");
-        shape.dispose();
+        BodyEditorLoader loader  = new BodyEditorLoader(Gdx.files.internal("physics/bird.json"));
+
+        loader.attachFixture(corpo, "bird",definicao,1,"PASSARO");
     }
 
 }
