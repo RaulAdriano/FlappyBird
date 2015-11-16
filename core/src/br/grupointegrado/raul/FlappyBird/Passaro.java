@@ -3,6 +3,7 @@ package br.grupointegrado.raul.FlappyBird;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -43,12 +44,39 @@ public class Passaro {
      * Atualiza o comportamento do passaro.
      * @param delta
      */
-    public void atualizar(float delta) {
-        atualizarVelocidade();
+    public void atualizar(float delta, boolean movimentar)
+    {
+        if(movimentar){
+            atualizarVelocidade();
+        }
+
     }
 
     private void atualizarVelocidade() {
+
         corpo.setLinearVelocity(2f, corpo.getLinearVelocity().y);
+
+        atualizarRotacao();
+
+    }
+
+    private void atualizarRotacao() {
+        float rotacao = 0;
+        float velocidadeY = corpo.getLinearVelocity().y;
+
+        if(velocidadeY <0) {
+            rotacao++;
+            //descendo`
+
+        }else if (velocidadeY>0){
+            //subindo
+            rotacao = 35;
+        }else{
+            //reto
+            rotacao = 0;
+        }
+        rotacao = (float) Math.toRadians(rotacao); //graus para radianos
+        corpo.setTransform(corpo.getPosition(),rotacao);
     }
 
     /**
